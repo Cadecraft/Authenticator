@@ -26,6 +26,13 @@ const httpServer = http.createServer(function (req, res) {
 // Test WASM
 // TODO: make WASM work with node
 //console.log("WASM check: 3 + 4 = " + mywasm.add(3, 4));
+const wasmBuffer = fs.readFileSync('./wasm_modules/pkg/wasm_modules_bg.wasm');
+WebAssembly.instantiate(wasmBuffer).then(wasmModule => {
+	// Exported function live under instance.exports
+	const add = wasmModule.instance.exports.add as CallableFunction;
+	const sum = add(5, 6);
+	console.log("Testing WASM: " + sum); // Outputs 11
+});
 
 // Run
 const PORT: number = 5005;

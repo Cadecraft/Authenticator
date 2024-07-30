@@ -25,6 +25,13 @@ var httpServer = http.createServer(function (req, res) {
 // Test WASM
 // TODO: make WASM work with node
 //console.log("WASM check: 3 + 4 = " + mywasm.add(3, 4));
+var wasmBuffer = fs.readFileSync('./wasm_modules/pkg/wasm_modules_bg.wasm');
+WebAssembly.instantiate(wasmBuffer).then(function (wasmModule) {
+    // Exported function live under instance.exports
+    var add = wasmModule.instance.exports.add;
+    var sum = add(5, 6);
+    console.log("Testing WASM: " + sum); // Outputs 11
+});
 // Run
 var PORT = 5005;
 httpServer.listen(PORT, "127.0.0.1", function () { return console.log("Server is open on port : ".concat(PORT)); });
