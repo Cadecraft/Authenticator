@@ -1,18 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // Requires
-//import http = require("http");
 var http = require("http");
-//import fs = require("fs");
 var fs = require("fs");
-//import path = require("fs");
-//import websocket = require("websocket");
-//import * as mywasm from "./wasm_modules/pkg"; // Include final `/`?
-//import server as WebSocketServer from "websocket";
-// Needed this to be the JS for node to be happy:
-//var mywasm = import("./wasm_modules/pkg/wasm_modules");
+//import * as mywasm from "./wasm_modules/pkg";
 // Information
-// TODO: start storing info
+var totalcount = 0;
 // Serving contents and setup
 var indexContents = fs.readFileSync("./index.html", "utf8");
 var httpServer = http.createServer(function (req, res) {
@@ -24,23 +17,32 @@ var httpServer = http.createServer(function (req, res) {
         req.on("data", function (chunk) {
             bodyArr_1.push(chunk);
         }).on("end", function () {
-            var body = Buffer.concat(bodyArr_1).toString();
-            // At this point, `body` has the entire request body stored in it as a string
-            console.log("- BODY: " + body);
+            var body = JSON.parse(Buffer.concat(bodyArr_1).toString());
+            // At this point, `body` has the entire request body stored in it as a JSON
+            // Handle
+            totalcount++;
+            //console.log("- BODY: " + JSON.stringify(body));
+            console.log("- " + body.value + " (x" + body.count + ") (global x" + totalcount + ")");
         });
     }
     else {
         // Getting the page
-        console.log("Non-POST request was made");
-        // Write a response
+        // Update the page (this is unsafe and a very bad idea but funny to do)
+        // Start render region
+        var newIndex = indexContents.substring(0, indexContents.search("<!-- BEGIN Render Region! -->"));
+        // RENDER
+        newIndex += "<span style=\"color: cyan;\">" + totalcount + "</span>";
+        // END RENDER
+        // End render region
+        newIndex += indexContents.substring(indexContents.search("<!-- END Render Region! -->"));
+        // Write the response
         res.writeHead(200, { "Content-type": "text/html" });
-        res.write(indexContents);
+        res.write(newIndex);
         res.end();
     }
 });
-//const ws = new websocket::WebSocketServer({"httpServer":httpServer});
 // Test WASM
-// TODO: make WASM work with node
+// TODO: server-side rendering of the HTML and game and stuff
 //console.log("WASM check: 3 + 4 = " + mywasm.add(3, 4));
 var wasmBuffer = fs.readFileSync('./wasm_modules/pkg/wasm_modules_bg.wasm');
 WebAssembly.instantiate(wasmBuffer).then(function (wasmModule) {

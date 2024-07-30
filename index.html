@@ -16,16 +16,29 @@
 		<button id="sendthing">
 			Send Thing
 		</button>
+		<br>
+		<hr>
+		<!-- DO NOT modify the comment directly below this as it is critical to the functionality of the server -->
+		<!-- BEGIN Render Region! -->
+		<span>This will be overwritten by the server; if you see it, something is wrong</span>
+		<!-- END Render Region! -->
+		<!-- DO NOT modify the comment directly above as this it is critical to the functionality of the server -->
 	</div>
 	<script>
 		// This is the script that will be used
+		let sendCount = 0;
+
+		// Press the button
 		document.getElementById("sendthing").addEventListener("click", () => {
+			// Update
+			sendCount++;
 			// Send thing to the server
 			const xhr = new XMLHttpRequest();
 			xhr.open("POST", location.href);
 			xhr.setRequestHeader("Content-Type", "application/json");
 			const body = JSON.stringify({
-				"value": "Thing to be sent"
+				"value": "Thing to be sent",
+				"count": sendCount
 			});
 			xhr.onload = () => {
 				// Check ready
