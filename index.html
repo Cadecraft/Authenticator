@@ -13,6 +13,30 @@
 	<!-- Body -->
 	<div>
 		Hellos
+		<button id="sendthing">
+			Send Thing
+		</button>
 	</div>
+	<script>
+		// This is the script that will be used
+		document.getElementById("sendthing").addEventListener("click", () => {
+			// Send thing to the server
+			const xhr = new XMLHttpRequest();
+			xhr.open("POST", location.href);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			const body = JSON.stringify({
+				"value": "Thing to be sent"
+			});
+			xhr.onload = () => {
+				// Check ready
+				if (xhr.readyState == 4 && xhr.status == 201) {
+					console.log(JSON.parse(xhr.responseText));
+				} else {
+					console.log("Error sending thing: " + xhr.status);
+				}
+			};
+			xhr.send(body);
+		});
+	</script>
 </body>
 </html>

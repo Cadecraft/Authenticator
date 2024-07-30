@@ -8,11 +8,11 @@ The server will calculate the sum of a number, and start serving an HTML page
 
 ## Why this fork? Features, fixes, and goals
 
-Features: add Rust, add WebAssembly, add dark theme
+Features: add Rust🦀, add WebAssembly🧩, add dark theme🌙
 
-Fixes: use Typescript instead of JavaScript
+Fixes: use Typescript🇹 instead of JavaScript
 
-Goals: server-side rendering of a game world
+Goals: server-side rendering of a new, original 2d block-based survival game world
 
 Rust introduces 
 

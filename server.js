@@ -16,10 +16,27 @@ var fs = require("fs");
 // Serving contents and setup
 var indexContents = fs.readFileSync("./index.html", "utf8");
 var httpServer = http.createServer(function (req, res) {
-    // Write a response
-    res.writeHead(200, { "Content-type": "text/html" });
-    res.write(indexContents);
-    res.end();
+    console.log(req.method + " request was made");
+    if (req.method == "POST") {
+        // Post
+        // Get the actual body
+        var bodyArr_1 = [];
+        req.on("data", function (chunk) {
+            bodyArr_1.push(chunk);
+        }).on("end", function () {
+            var body = Buffer.concat(bodyArr_1).toString();
+            // At this point, `body` has the entire request body stored in it as a string
+            console.log("- BODY: " + body);
+        });
+    }
+    else {
+        // Getting the page
+        console.log("Non-POST request was made");
+        // Write a response
+        res.writeHead(200, { "Content-type": "text/html" });
+        res.write(indexContents);
+        res.end();
+    }
 });
 //const ws = new websocket::WebSocketServer({"httpServer":httpServer});
 // Test WASM

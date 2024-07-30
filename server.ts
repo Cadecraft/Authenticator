@@ -16,10 +16,26 @@ import * as fs from "fs";
 // Serving contents and setup
 let indexContents: string = fs.readFileSync("./index.html", "utf8");
 const httpServer = http.createServer(function (req, res) {
-	// Write a response
-	res.writeHead(200, { "Content-type": "text/html" });
-	res.write(indexContents);
-	res.end();
+	console.log(req.method + " request was made");
+	if (req.method == "POST") {
+		// Post
+		// Get the actual body
+		let bodyArr = [];
+		req.on("data", chunk => {
+			bodyArr.push(chunk);
+		}).on("end", () => {
+			let body = JSON.parse(Buffer.concat(bodyArr).toString());
+			// At this point, `body` has the entire request body stored in it as a JSON
+			// Handle
+			console.log("- BODY: " + JSON.stringify(body));
+		});
+	} else {
+		// Getting the page
+		// Write a response
+		res.writeHead(200, { "Content-type": "text/html" });
+		res.write(indexContents);
+		res.end();
+	}
 })
 //const ws = new websocket::WebSocketServer({"httpServer":httpServer});
 
