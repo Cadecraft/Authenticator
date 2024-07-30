@@ -14,7 +14,7 @@ Fixes: use Typescript🇹 instead of JavaScript
 
 Goals: server-side rendering of a new, original 2d block-based survival game world
 
-Rust introduces 
+Non-goals: clean, readable, or organized code; foresight; reason
 
 ## Running the server:
 
