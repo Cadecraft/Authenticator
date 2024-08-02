@@ -33,7 +33,7 @@ npm install -g typescript
 
 After cloning this repository, run this command in the `wasm_modules` folder to build the wasm:
 ```
-wasm-pack build --target web
+wasm-pack build --target nodejs
 ```
 
 Run this command in the main `Authenticator` folder to compile to JS:
