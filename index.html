@@ -16,13 +16,14 @@
 		<button id="sendthing">
 			Send Thing
 		</button>
+		<span id="reloadwarning" style="color: red; display: none;">reload the page to see your changes</span>
 		<br>
 		<hr>
 		<!-- DO NOT modify the comment directly below this as it is critical to the functionality of the server -->
 		<!-- BEGIN Render Region! -->
 		<span>This will be overwritten by the server; if you see it, something is wrong</span>
 		<!-- END Render Region! -->
-		<!-- DO NOT modify the comment directly above as this it is critical to the functionality of the server -->
+		<!-- DO NOT modify the comment directly above this as it is critical to the functionality of the server -->
 	</div>
 	<script>
 		// This is the script that will be used
@@ -49,6 +50,8 @@
 				}
 			};
 			xhr.send(body);
+			// Tell the user to reload
+			document.getElementById("reloadwarning").style.display = "inline";
 		});
 	</script>
 </body>

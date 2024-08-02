@@ -12,14 +12,17 @@ var wasmBuffer = fs.readFileSync('./wasm_modules/pkg/wasm_modules_bg.wasm');
 WebAssembly.instantiate(wasmBuffer).then(function (wasmModule) {
     // Exported function live under instance.exports
     var add = wasmModule.instance.exports.add;
+    var renderpage = wasmModule.instance.exports.renderpage;
     var sum = add(5, 6);
     console.log("Testing WASM (should output 11): " + sum); // Outputs 11
+    console.log("Testing WASM (should output a span): " + renderpage(3)); // Outputs 11
     // Serving contents and setup
     var indexContents = fs.readFileSync("./index.html", "utf8");
     var httpServer = http.createServer(function (req, res) {
         console.log(req.method + " request was made");
         if (req.method == "POST") {
             // Post
+            // TODO: it only lets you send 9 of these?
             // Get the actual body
             var bodyArr_1 = [];
             req.on("data", function (chunk) {
@@ -38,6 +41,10 @@ WebAssembly.instantiate(wasmBuffer).then(function (wasmModule) {
             // Start render region
             var newIndex = indexContents.substring(0, indexContents.search("<!-- BEGIN Render Region! -->"));
             // RENDER
+            // TODO: automate the build process to make this stuff easier
+            // TODO: render more of the page in rust
+            // TODO: fix showing as "undefined" from rust
+            //newIndex += renderpage(totalcount);
             newIndex += "<span style=\"color: cyan;\">" + totalcount + "</span>";
             // END RENDER
             // End render region

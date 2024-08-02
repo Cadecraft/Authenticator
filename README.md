@@ -19,6 +19,10 @@ Goals: WebAssembly server-side rendering of a chat app with Rust for a 🚀🔥b
 
 NON-goals: clean, readable, or organized code; foresight; reason; best practices; practicality
 
+## Screenshot
+
+![A screenshot of the rendered HTML file](Screenshot.jpg "A screenshot of the rendered HTML file")
+
 ## Running the server is easy:
 
 Prerequisites: Cargo and Node.js
@@ -32,7 +36,7 @@ After cloning this repository, run this command in the `wasm_modules` folder to 
 wasm-pack build --target web
 ```
 
-Run this command in the main `Authenticator` folder to compile to js:
+Run this command in the main `Authenticator` folder to compile to JS:
 ```
 npx tsc server.ts
 ```
